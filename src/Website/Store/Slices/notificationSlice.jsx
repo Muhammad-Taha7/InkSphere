@@ -60,7 +60,11 @@ const notificationSlice = createSlice({
     receiveNotification: (state, action) => {
       state.notifications.unshift(action.payload);
       state.unreadCount += 1;
-      toast.success(`New ${action.payload.type} from ${action.payload.sender?.name}`);
+      const username = action.payload.sender?.username || action.payload.sender?.name || 'a user';
+      const msg = action.payload.type === 'like'
+        ? `You have a like from ${username}`
+        : `You have got a comment from the user ${username}`;
+      toast.success(msg);
     }
   },
   extraReducers: (builder) => {

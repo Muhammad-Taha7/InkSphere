@@ -32,14 +32,14 @@ export const Blogs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-zinc-100 transition-colors duration-300">
       {/* Header Section */}
-      <section className="bg-white px-6 py-20 text-gray-900 md:px-12 lg:px-20 border-b border-gray-100">
+      <section className="bg-white dark:bg-zinc-900 px-6 py-20 text-gray-900 dark:text-zinc-100 md:px-12 lg:px-20 border-b border-gray-100 dark:border-zinc-800">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="mb-6 font-serif text-5xl font-black uppercase tracking-widest md:text-7xl text-gray-900">
+          <h1 className="mb-6 font-serif text-5xl font-black uppercase tracking-widest md:text-7xl text-gray-900 dark:text-white">
             Journal
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-500 md:text-xl">
+          <p className="mx-auto max-w-2xl text-lg text-gray-500 dark:text-gray-400 md:text-xl">
             Explore our collection of stories, guides, and thoughtful pieces on travel and culture.
           </p>
 
@@ -50,7 +50,7 @@ export const Blogs = () => {
               placeholder="Search articles..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full rounded-full border border-gray-200 bg-gray-50 py-4 pl-6 pr-14 text-gray-900 placeholder-gray-400 focus:border-yellow-400 focus:outline-none focus:bg-white transition-colors shadow-sm"
+              className="w-full rounded-full border border-gray-200 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-900/50 py-4 pl-6 pr-14 text-gray-900 dark:text-zinc-100 placeholder-gray-400 dark:placeholder-zinc-500 focus:border-yellow-400 focus:outline-none focus:bg-white dark:focus:bg-zinc-900 transition-colors shadow-sm"
             />
             <button
               type="submit"
@@ -69,7 +69,7 @@ export const Blogs = () => {
                 className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
                   activeTag === tag
                     ? 'bg-yellow-400 text-black shadow-sm border border-yellow-400'
-                    : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                    : 'bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 text-gray-500 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-850 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
                 #{tag}
@@ -87,8 +87,8 @@ export const Blogs = () => {
           </div>
         ) : blogs.length === 0 ? (
           <div className="py-20 text-center">
-            <h3 className="text-2xl font-bold text-gray-900">No articles found</h3>
-            <p className="mt-2 text-gray-500">Try adjusting your search or filters.</p>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">No articles found</h3>
+            <p className="mt-2 text-gray-500 dark:text-gray-450">Try adjusting your search or filters.</p>
             <button
               onClick={() => { setSearchTerm(''); setActiveTag(''); setPage(1); }}
               className="mt-6 font-bold text-yellow-500 hover:text-yellow-600 hover:underline transition-colors"
@@ -107,7 +107,7 @@ export const Blogs = () => {
                     {/* Image Section */}
                     <Link
                       to={`/blogs/${blog._id}`}
-                      className="group relative w-full md:w-1/2 shrink-0 overflow-hidden rounded-3xl bg-gray-100 shadow-lg hover:shadow-2xl transition-all duration-500"
+                      className="group relative w-full md:w-1/2 shrink-0 overflow-hidden rounded-3xl bg-gray-100 dark:bg-zinc-900 shadow-lg hover:shadow-2xl transition-all duration-500"
                     >
                       <div className="aspect-[4/3] w-full">
                         {blog.coverImage ? (
@@ -117,7 +117,7 @@ export const Blogs = () => {
                             className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
                           />
                         ) : (
-                          <div className="flex h-full items-center justify-center text-gray-400 font-medium">No Image Available</div>
+                          <div className="flex h-full items-center justify-center text-gray-400 dark:text-gray-500 font-medium">No Image Available</div>
                         )}
                         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
                         
@@ -125,7 +125,7 @@ export const Blogs = () => {
                         {blog.tags && blog.tags.length > 0 && (
                           <div className="absolute left-6 top-6 flex flex-wrap gap-2">
                             {blog.tags.slice(0, 2).map((t, i) => (
-                              <span key={i} className="rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gray-900 backdrop-blur-md shadow-sm">
+                              <span key={i} className="rounded-full bg-white/90 dark:bg-zinc-900/90 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gray-900 dark:text-zinc-200 backdrop-blur-md shadow-sm">
                                 {t}
                               </span>
                             ))}
@@ -143,26 +143,26 @@ export const Blogs = () => {
                           className="h-10 w-10 rounded-full object-cover border-2 border-yellow-400 shadow-sm"
                         />
                         <div>
-                          <p className="text-sm font-bold text-gray-900">{blog.author?.name}</p>
-                          <p className="text-xs font-medium text-gray-500">{new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                          <p className="text-sm font-bold text-gray-900 dark:text-white">{blog.author?.name}</p>
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                         </div>
                       </div>
 
                       <Link to={`/blogs/${blog._id}`} className="group">
-                        <h3 className="mb-4 font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] text-gray-900 transition-colors group-hover:text-yellow-600">
+                        <h3 className="mb-4 font-serif text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] text-gray-900 dark:text-white transition-colors group-hover:text-yellow-600">
                           {blog.title}
                         </h3>
                       </Link>
 
-                      <p className="mb-8 text-base md:text-lg leading-relaxed text-gray-600 line-clamp-3">
+                      <p className="mb-8 text-base md:text-lg leading-relaxed text-gray-600 dark:text-zinc-400 line-clamp-3">
                         {blog.description || blog.content.replace(/<[^>]+>/g, '')}
                       </p>
 
                       <div className="flex items-center gap-6 mt-auto text-sm font-semibold text-gray-500">
-                        <span className="flex items-center gap-2 hover:text-gray-900 transition-colors cursor-default">
+                        <span className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors cursor-default">
                           <Eye className="h-5 w-5 text-gray-400" /> {blog.likesCount || 0}
                         </span>
-                        <span className="flex items-center gap-2 hover:text-gray-900 transition-colors cursor-default">
+                        <span className="flex items-center gap-2 hover:text-gray-900 dark:hover:text-white transition-colors cursor-default">
                           <MessageSquare className="h-5 w-5 text-gray-400" /> {blog.commentsCount || 0}
                         </span>
                         
@@ -185,17 +185,17 @@ export const Blogs = () => {
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-gray-700 dark:text-zinc-300 transition-colors hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Page {page} of {pagination.pages}
                 </span>
                 <button
                   onClick={() => setPage(p => Math.min(pagination.pages, p + 1))}
                   disabled={page === pagination.pages}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-gray-700 dark:text-zinc-300 transition-colors hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>

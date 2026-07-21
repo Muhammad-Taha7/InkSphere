@@ -16,6 +16,7 @@ export const BlogDetail = () => {
   
   const [commentText, setCommentText] = useState('');
   const [isLiking, setIsLiking] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [authModal, setAuthModal] = useState({ isOpen: false, action: '' });
   const socket = useSocket();
 
@@ -87,7 +88,7 @@ export const BlogDetail = () => {
 
   if (isLoading && !currentBlog) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-white">
+      <div className="flex min-h-[70vh] items-center justify-center bg-white dark:bg-zinc-950">
         <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-yellow-400"></div>
       </div>
     );
@@ -95,8 +96,8 @@ export const BlogDetail = () => {
 
   if (!currentBlog && !isLoading) {
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center bg-white px-4 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-gray-900">Article Not Found</h2>
+      <div className="flex min-h-[70vh] flex-col items-center justify-center bg-white dark:bg-zinc-950 px-4 text-center">
+        <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-white">Article Not Found</h2>
         <p className="mb-8 text-gray-500">The story you're looking for doesn't exist or has been removed.</p>
         <Link to="/blogs" className="rounded-full bg-yellow-400 px-8 py-3 font-semibold text-black transition-all hover:bg-yellow-500 shadow-sm hover:shadow-md">
           Back to Journal
@@ -106,12 +107,20 @@ export const BlogDetail = () => {
   }
 
   return (
-    <article className="min-h-screen bg-white text-gray-900 pb-24 selection:bg-yellow-400 selection:text-black w-full">
+    <article className="min-h-screen bg-white dark:bg-zinc-950 text-gray-900 dark:text-zinc-100 pb-24 selection:bg-yellow-400 selection:text-black w-full transition-colors duration-300">
+      <style>{`
+        .blog-content-collapsed {
+          max-height: 420px;
+          overflow: hidden;
+          position: relative;
+        }
+      `}</style>
+
       {/* Navigation Top Overlay */}
       <div className="fixed top-6 left-6 z-50">
         <Link 
           to="/blogs" 
-          className="group flex items-center gap-2 rounded-full bg-white/90 px-4 py-2.5 text-sm font-medium text-gray-600 backdrop-blur-md transition-all border border-gray-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 shadow-sm"
+          className="group flex items-center gap-2 rounded-full bg-white/90 dark:bg-zinc-900/90 px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-zinc-300 backdrop-blur-md transition-all border border-gray-200 dark:border-zinc-800 hover:border-gray-300 dark:hover:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white shadow-sm"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" /> 
           <span>Back to Journal</span>
@@ -119,7 +128,7 @@ export const BlogDetail = () => {
       </div>
 
       {/* Hero Section */}
-      <header className="relative min-h-[60vh] md:min-h-[75vh] w-full bg-gray-100 flex items-end">
+      <header className="relative min-h-[60vh] md:min-h-[75vh] w-full bg-gray-100 dark:bg-zinc-900 flex items-end">
         {currentBlog?.coverImage && (
           <div className="absolute inset-0 overflow-hidden">
             <img
@@ -177,19 +186,19 @@ export const BlogDetail = () => {
       <main className="w-full px-6 sm:px-12 lg:px-20 xl:px-32 pt-12">
         
         {/* Sticky Interactive Bar */}
-        <div className="sticky top-6 z-40 mb-16 flex items-center justify-between rounded-full border border-gray-200 bg-white/90 px-8 py-3.5 backdrop-blur-md shadow-md">
+        <div className="sticky top-6 z-40 mb-16 flex items-center justify-between rounded-full border border-gray-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 px-8 py-3.5 backdrop-blur-md shadow-md text-gray-700 dark:text-zinc-300">
           <div className="flex items-center gap-8">
             <button
               onClick={handleLike}
               disabled={isLiking}
               className={`flex items-center gap-2.5 text-sm font-medium transition-all ${
-                currentBlog?.hasLiked ? 'text-red-500 scale-105' : 'text-gray-500 hover:text-gray-900'
+                currentBlog?.hasLiked ? 'text-red-500 scale-105' : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               <Heart className={`h-5 w-5 transition-transform active:scale-125 ${currentBlog?.hasLiked ? 'fill-current' : ''}`} />
               <span>{currentBlog?.likesCount || 0}</span>
             </button>
-            <a href="#comments" className="flex items-center gap-2.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">
+            <a href="#comments" className="flex items-center gap-2.5 text-sm font-medium text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">
               <MessageSquare className="h-5 w-5" />
               <span>{currentBlog?.commentsCount || 0}</span>
             </a>
@@ -198,7 +207,7 @@ export const BlogDetail = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={handleShare}
-              className="flex items-center gap-2 rounded-full bg-gray-100 hover:bg-gray-200 px-4 py-2 text-xs font-medium text-gray-700 hover:text-gray-900 transition-all border border-gray-200"
+              className="flex items-center gap-2 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 px-4 py-2 text-xs font-medium text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white transition-all border border-gray-200 dark:border-zinc-700"
             >
               <Share2 className="h-4 w-4" /> Share
             </button>
@@ -207,30 +216,43 @@ export const BlogDetail = () => {
 
         {/* Featured Description Highlight Box */}
         {currentBlog?.description && (
-          <section className="mb-16 relative overflow-hidden rounded-2xl border-l-4 border-yellow-400 bg-gray-50 p-8 sm:p-10 shadow-sm">
+          <section className="mb-16 relative overflow-hidden rounded-2xl border-l-4 border-yellow-400 bg-gray-50 dark:bg-zinc-900/40 p-8 sm:p-10 shadow-sm border border-gray-100 dark:border-zinc-900">
             <p className="text-xs font-bold uppercase tracking-widest text-yellow-600 mb-4">
               Summary Overview
             </p>
-            <p className="font-serif text-xl sm:text-2xl font-medium leading-relaxed italic text-gray-700">
+            <p className="font-serif text-xl sm:text-2xl font-medium leading-relaxed italic text-gray-700 dark:text-zinc-300">
               "{currentBlog.description}"
             </p>
           </section>
         )}
 
-        {/* Primary Article Body - Full Width + Expanded Paragraph Spacing */}
-        <div 
-          className="prose prose-xl max-w-full font-serif text-gray-700 
-            prose-headings:font-sans prose-headings:font-bold prose-headings:text-gray-900 
-            prose-h1:text-4xl prose-h2:text-3xl prose-h2:mt-14 prose-h2:mb-8
-            prose-p:mb-8 prose-p:leading-9 sm:prose-p:leading-10 prose-p:tracking-wide
-            prose-a:text-yellow-600 prose-a:no-underline hover:prose-a:underline
-            prose-blockquote:border-l-yellow-400 prose-blockquote:bg-gray-50 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:my-10 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-gray-800
-            prose-img:rounded-2xl prose-img:border prose-img:border-gray-200 prose-img:my-10 prose-img:w-full"
-          dangerouslySetInnerHTML={{ __html: currentBlog?.content }}
-        />
+        {/* Primary Article Body - Collapse state and "Read More" button */}
+        <div className="relative">
+          <div 
+            className={`prose prose-xl max-w-full font-serif text-gray-700 dark:text-zinc-300 
+              prose-headings:font-sans prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
+              prose-h1:text-4xl prose-h2:text-3xl prose-h2:mt-14 prose-h2:mb-8
+              prose-p:mb-8 prose-p:leading-9 sm:prose-p:leading-10 prose-p:tracking-wide
+              prose-a:text-yellow-600 prose-a:no-underline hover:prose-a:underline
+              prose-blockquote:border-l-yellow-400 prose-blockquote:bg-gray-50 dark:prose-blockquote:bg-zinc-900/50 dark:prose-blockquote:text-zinc-300 prose-blockquote:py-4 prose-blockquote:px-8 prose-blockquote:my-10 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-gray-800
+              prose-img:rounded-2xl prose-img:border prose-img:border-gray-200 dark:prose-img:border-zinc-800 prose-img:my-10 prose-img:w-full
+              ${!isExpanded ? 'blog-content-collapsed' : ''}`}
+            dangerouslySetInnerHTML={{ __html: currentBlog?.content }}
+          />
+          {!isExpanded && (
+            <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-zinc-950 dark:via-zinc-950/80 flex items-end justify-center pb-4 z-10">
+              <button 
+                onClick={() => setIsExpanded(true)}
+                className="rounded-full bg-yellow-400 px-8 py-3.5 text-sm font-bold uppercase tracking-wider text-black shadow-lg hover:bg-yellow-500 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              >
+                Read More
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Author Bio Card */}
-        <div className="mt-20 flex flex-col items-center gap-8 rounded-2xl bg-gray-50 border border-gray-200 p-8 sm:p-12 text-center sm:flex-row sm:text-left shadow-sm">
+        <div className="mt-20 flex flex-col items-center gap-8 rounded-2xl bg-gray-50 dark:bg-zinc-900/30 border border-gray-200 dark:border-zinc-800 p-8 sm:p-12 text-center sm:flex-row sm:text-left shadow-sm">
           <img
             src={currentBlog?.author?.avatar || 'https://via.placeholder.com/100'}
             alt={currentBlog?.author?.name}
@@ -238,45 +260,45 @@ export const BlogDetail = () => {
           />
           <div>
             <span className="text-xs font-bold uppercase tracking-widest text-yellow-600">Written by</span>
-            <h3 className="mb-2 text-2xl font-bold text-gray-900">{currentBlog?.author?.name}</h3>
-            <p className="text-base text-gray-600 leading-relaxed">
+            <h3 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">{currentBlog?.author?.name}</h3>
+            <p className="text-base text-gray-600 dark:text-zinc-400 leading-relaxed">
               {currentBlog?.author?.bio || 'An avid storyteller sharing moments, insights, and perspectives from around the world.'}
             </p>
           </div>
         </div>
 
         {/* Comments Section */}
-        <section id="comments" className="mt-20 pt-12 border-t border-gray-200">
-          <h3 className="mb-10 font-serif text-3xl font-bold text-gray-900 flex items-center gap-4">
+        <section id="comments" className="mt-20 pt-12 border-t border-gray-200 dark:border-zinc-800">
+          <h3 className="mb-10 font-serif text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-4">
             <span>Responses</span>
-            <span className="rounded-full bg-gray-100 px-4 py-1 text-base font-sans font-medium text-gray-600 border border-gray-200">
+            <span className="rounded-full bg-gray-100 dark:bg-zinc-800 px-4 py-1 text-base font-sans font-medium text-gray-600 dark:text-zinc-400 border border-gray-200 dark:border-zinc-800">
               {currentBlog?.commentsCount || 0}
             </span>
           </h3>
           
           {/* Comment Input */}
-          <div className="mb-12 rounded-2xl bg-gray-50 border border-gray-200 p-6 shadow-sm">
+          <div className="mb-12 rounded-2xl bg-gray-50 dark:bg-zinc-900/30 border border-gray-200 dark:border-zinc-800 p-6 shadow-sm">
             {token ? (
               <form onSubmit={submitComment}>
                 <div className="flex gap-5">
                   <img
                     src={user?.avatar || 'https://via.placeholder.com/40'}
                     alt={user?.name}
-                    className="h-12 w-12 shrink-0 rounded-full border border-gray-300 object-cover"
+                    className="h-12 w-12 shrink-0 rounded-full border border-gray-300 dark:border-zinc-700 object-cover"
                   />
                   <div className="flex-1">
                     <textarea
                       value={commentText}
                       onChange={(e) => setCommentText(e.target.value)}
                       placeholder="What are your thoughts on this story?"
-                      className="w-full resize-none rounded-xl border border-gray-300 bg-white p-5 text-base text-gray-900 placeholder-gray-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition-all shadow-sm"
+                      className="w-full resize-none rounded-xl border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-5 text-base text-gray-900 dark:text-zinc-100 placeholder-gray-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition-all shadow-sm"
                       rows="4"
                     />
                     <div className="mt-4 flex justify-end">
                       <button
                         type="submit"
                         disabled={!commentText.trim()}
-                        className="flex items-center gap-2 rounded-full bg-yellow-400 px-7 py-3 text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-yellow-500 disabled:opacity-40 disabled:hover:bg-yellow-400"
+                        className="flex items-center gap-2 rounded-full bg-yellow-400 px-7 py-3 text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-yellow-500 disabled:opacity-40 disabled:hover:bg-yellow-400 cursor-pointer"
                       >
                         Publish <Send className="h-4 w-4" />
                       </button>
@@ -286,7 +308,7 @@ export const BlogDetail = () => {
               </form>
             ) : (
               <div className="text-center py-8">
-                <p className="mb-5 text-base text-gray-500">Join the discussion and express your thoughts.</p>
+                <p className="mb-5 text-base text-gray-500 dark:text-gray-400">Join the discussion and express your thoughts.</p>
                 <Link to="/auth" className="inline-block rounded-full bg-yellow-400 px-8 py-3 text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-yellow-500">
                   Sign In to Respond
                 </Link>
@@ -297,7 +319,7 @@ export const BlogDetail = () => {
           {/* Comments List */}
           <div className="space-y-8">
             {currentBlog?.comments?.length === 0 ? (
-               <div className="py-8 text-center text-gray-500">
+               <div className="py-8 text-center text-gray-500 dark:text-gray-400">
                  No comments yet. Be the first to respond!
                </div>
             ) : (
@@ -315,31 +337,31 @@ export const BlogDetail = () => {
                   <div 
                     key={comment._id} 
                     className={`flex gap-5 border-b pb-8 last:border-0 ${
-                      isAuthor ? 'border-yellow-200 bg-yellow-50/50 p-6 rounded-2xl' : 'border-gray-200'
+                      isAuthor ? 'border-yellow-200 dark:border-yellow-500/20 bg-yellow-50/50 dark:bg-yellow-500/5 p-6 rounded-2xl' : 'border-gray-200 dark:border-zinc-800'
                     }`}
                   >
                     <img
                       src={comment.author?.avatar || 'https://via.placeholder.com/40'}
                       alt={comment.author?.name}
                       className={`h-12 w-12 shrink-0 rounded-full object-cover ${
-                        isAuthor ? 'border-2 border-yellow-400' : 'border border-gray-200'
+                        isAuthor ? 'border-2 border-yellow-400' : 'border border-gray-200 dark:border-zinc-800'
                       }`}
                     />
                     <div className="flex-1">
                       <div className="mb-2 flex items-baseline justify-between">
                         <div className="flex items-center gap-3">
-                          <h4 className="font-semibold text-base text-gray-900">{comment.author?.name}</h4>
+                          <h4 className="font-semibold text-base text-gray-900 dark:text-white">{comment.author?.name}</h4>
                           {isAuthor && (
                             <span className="rounded-full bg-yellow-400 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-black">
                               Author
                             </span>
                           )}
                         </div>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
                           {new Date(comment.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                         </span>
                       </div>
-                      <p className="text-base text-gray-700 leading-relaxed">{comment.content}</p>
+                      <p className="text-base text-gray-700 dark:text-zinc-300 leading-relaxed">{comment.content}</p>
                     </div>
                   </div>
                 );
