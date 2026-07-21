@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Basic Meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F172A" />
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBGrXbafOwjJLZP03PYLI76wtJ35WKdyVvRvhSBm2xgQ&s" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Title -->
+    <title>InkSphere | Share Stories, Ideas & Knowledge</title>
+
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="InkSphere is a modern blogging platform where writers share stories, ideas, and knowledge. Built with the MERN Stack for a fast, secure, and engaging reading experience."
+    />
+    <meta
+      name="keywords"
+      content="InkSphere, Blogging Platform, MERN Stack, React, Node.js, Express, MongoDB, Articles, Blogs, Writers, Technology"
+    />
+    <meta name="author" content="Your Name" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://inksphere.com/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts (Plus Jakarta Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
+      rel="stylesheet" 
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="InkSphere | Share Stories, Ideas & Knowledge" />
+    <meta
+      property="og:description"
+      content="A modern MERN Stack blogging platform for writers, readers, and creators."
+    />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://inksphere.com/" />
+    <meta property="og:site_name" content="InkSphere" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="InkSphere" />
+    <meta
+      name="twitter:description"
+      content="A modern blogging platform built with the MERN Stack."
+    />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Performance -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  </head>
+
+  <body style="font-family: 'Plus Jakarta Sans', sans-serif;">
+    <style>
+      /* Global Font Styling */
+      * {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      #global-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #EF9B0F;
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      #global-loader svg {
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+      }
+    </style>
+
+    <div id="global-loader">
+      <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+        <g class="dots">
+          <circle class="mainDot" cx="300" cy="300" r="12.5" fill="#e8e4e3"/>
+         <g class="otherDots" fill="#e8e4e3">
+           <circle cx="340" cy="300" r="12.5" />
+           <circle cx="380" cy="300" r="12.5" />
+           <circle cx="420" cy="300" r="12.5" />
+           <circle cx="460" cy="300" r="12.5" />
+           <circle cx="500" cy="300" r="12.5" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+      gsap.set('#global-loader svg', { visibility: 'visible' });
+
+      var tl = gsap.timeline({repeat: -1}).timeScale(1.42);
+      tl.to('.mainDot', { duration: 1, x: 240, ease: "sine.inOut" })
+        .to('.otherDots circle', { duration: 0.3, y: -40, ease: "sine.out", stagger: { each: 0.09, from: "start" } }, 0.06)
+        .to('.otherDots circle', { duration: 0.7, y: 0, ease: "bounce.out", stagger: { each: 0.09, from: "start" } }, 0.48)
+        .to('.otherDots circle', { duration: 0.7, scaleY:0.7, scaleX:1.23, ease:"power1.inOut", transformOrigin:"bottom", stagger: { each: 0.09, from: "start" } }, 0.48)
+        .to('.otherDots circle', { duration: 1, x: -40, ease: "expo.out", stagger: { each: 0.09, from: "start" } }, 0.68)
+        .to('.mainDot', { duration: 1.8, x: 200, ease: "elastic.out(1, 0.7)" }, 1);
+
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loader = document.getElementById('global-loader');
+          if (loader) {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+            setTimeout(() => loader.remove(), 500);
+          }
+        }, 1000);
+      });
+    </script>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
