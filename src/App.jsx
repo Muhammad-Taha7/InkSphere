@@ -17,8 +17,10 @@ import { NotFound } from './Website/Error/notFound';
 import { ProtectedRoute } from './Website/protectedRoute';
 import { AuthPage } from './Website/Components/Auth/Authpage';
 import { AdminLayout } from './Website/Components/Admin/AdminLayout';
+import { AdminLoginPage } from './Website/Pages/Admin/AdminLoginPage';
 import { AdminDashboard } from './Website/Pages/Admin/AdminDashboard';
-import { UserManagement } from './Website/Pages/Admin/UserManagement';
+import { UserDetailPage } from './Website/Pages/Admin/UserDetailPage';
+import { AdminSettings } from './Website/Pages/Admin/AdminSettings';
 import { Toaster } from 'react-hot-toast';
 
 const AppContent = () => {
@@ -36,7 +38,7 @@ const AppContent = () => {
   const isKnownRoute = !location.pathname.startsWith('/profile') && 
                        !location.pathname.startsWith('/auth') && 
                        !location.pathname.startsWith('/profile-setup') &&
-                       !location.pathname.startsWith('/admin');
+                       !location.pathname.startsWith('/run/Dashboard');
 
   if (isLoading && token && !user) {
     return (
@@ -85,16 +87,14 @@ const AppContent = () => {
         />
 
         {/* Admin Routes */}
+        <Route path="/run/Dashboard" element={<AdminLoginPage />} />
         <Route 
-          path="/admin" 
-          element={
-            <ProtectedRoute requireAdmin={true}>
-              <AdminLayout />
-            </ProtectedRoute>
-          }
+          path="/run/Dashboard" 
+          element={<AdminLayout />}
         >
-          <Route index element={<AdminDashboard />} />
-          <Route path="users" element={<UserManagement />} />
+          <Route path="home" element={<AdminDashboard />} />
+          <Route path="user/:id" element={<UserDetailPage />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
 
         {/* 404 Route */}
