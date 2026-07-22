@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { User, FileText, PlusSquare, Settings, LogOut, X, Bell, Edit } from 'lucide-react';
+import { User, FileText, PlusSquare, Settings, LogOut, X, Bell } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../../Store/Slices/authSlice.jsx";
 
@@ -16,7 +16,6 @@ export const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
 
   const navItems = [
     { name: 'My Profile', path: '/profile', icon: User, end: true },
-    { name: 'Edit Profile', path: '/profile/edit', icon: Edit },
     { name: 'My Blogs', path: '/profile/my-blogs', icon: FileText },
     { name: 'Create Blog', path: '/profile/create', icon: PlusSquare },
     { name: 'Notifications', path: '/profile/notifications', icon: Bell },

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Sidebar } from '../Components/Dashboard/Sidebar.jsx';
 import { MyBlogs } from '../Components/Dashboard/MyBlogs.jsx';
 import { CreateBlog } from './CreateBlog.jsx';
 import { EditBlog } from './EditBlog.jsx';
-import { Menu, Mail, MapPin, Heart, Globe, ExternalLink, Settings as SettingsIcon } from 'lucide-react';
+import { Menu, Mail, MapPin, Heart, Globe, ExternalLink, Briefcase, Building2, Code2, Link as LinkIcon, ArrowLeft, Pencil } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { ProfileSetup } from './ProfileSetup.jsx';
 import { Notifications } from '../Components/Dashboard/Notifications.jsx';
 import { AccountSettings } from '../Components/Dashboard/AccountSettings.jsx';
 
-// Full-width & Full-height Profile Overview Component
+// Full-width & Full-height Profile Overview Component with Edit Form merged below
 const ProfileOverview = () => {
   const { user } = useSelector((state) => state.auth);
 
@@ -22,6 +22,20 @@ const ProfileOverview = () => {
       icon: Globe,
       label: 'Website',
       value: user?.website,
+      isLink: true,
+    },
+    { icon: Briefcase, label: 'Job Title', value: user?.jobTitle },
+    { icon: Building2, label: 'Company', value: user?.company },
+    {
+      icon: Code2,
+      label: 'Github',
+      value: user?.githubUrl,
+      isLink: true,
+    },
+    {
+      icon: LinkIcon,
+      label: 'LinkedIn',
+      value: user?.linkedinUrl,
       isLink: true,
     },
   ];
@@ -103,12 +117,26 @@ const ProfileOverview = () => {
           })}
         </div>
       </div>
+
+      {/* Edit Profile Section — Merged Below */}
+      <div className="w-full">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-2.5 rounded-xl bg-yellow-500/10 text-yellow-600 dark:text-yellow-500">
+            <Pencil className="h-5 w-5" />
+          </div>
+          <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+            Edit Your Profile
+          </h4>
+        </div>
+        <ProfileSetup isEditMode={true} />
+      </div>
     </div>
   );
 };
 
 export const Profile = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     // Uses full viewport height (h-screen) and width (w-full)
@@ -118,18 +146,32 @@ export const Profile = () => {
 
       {/* Main Content Area filling remaining height & width */}
       <main className="flex-1 flex flex-col h-full w-full overflow-y-auto">
-        {/* Mobile Header */}
-        <div className="sticky top-0 z-20 flex items-center justify-between border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md p-4 md:hidden shrink-0">
+        {/* Top Header Bar — Desktop & Mobile */}
+        <div className="sticky top-0 z-20 flex items-center justify-between border-b border-gray-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md px-4 py-3 shrink-0">
           <div className="flex items-center gap-3">
+            {/* Mobile menu button */}
             <button
               onClick={() => setIsMobileOpen(true)}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+              className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors md:hidden"
               aria-label="Open Menu"
             >
               <Menu className="h-6 w-6" />
             </button>
-            <h1 className="font-bold text-gray-900 dark:text-white text-lg">Dashboard</h1>
+
+            {/* Back to Home Button */}
+            <button
+              onClick={() => navigate('/')}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-zinc-100 transition-all duration-200 group"
+            >
+              <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <span className="hidden sm:inline">Back to Home</span>
+            </button>
           </div>
+
+          <h1 className="font-bold text-gray-900 dark:text-white text-lg">Dashboard</h1>
+
+          {/* Spacer for balance */}
+          <div className="w-24" />
         </div>
 
         {/* Dynamic Route Container - Expanded to 100% width */}
@@ -139,7 +181,6 @@ export const Profile = () => {
             <Route path="my-blogs" element={<MyBlogs />} />
             <Route path="create" element={<CreateBlog />} />
             <Route path="edit/:id" element={<EditBlog />} />
-            <Route path="edit" element={<ProfileSetup isEditMode={true} />} />
             <Route path="notifications" element={<Notifications />} />
             <Route
               path="settings"
