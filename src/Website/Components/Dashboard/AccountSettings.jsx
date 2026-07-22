@@ -4,6 +4,7 @@ import { Lock, Trash2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import axios from 'axios';
 import { logout } from '../../Store/Slices/authSlice';
 import { useNavigate } from 'react-router-dom';
+import ConfirmModal from '../ConfirmModal.jsx';
 
 export const AccountSettings = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -22,6 +23,8 @@ export const AccountSettings = () => {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordError, setPasswordError] = useState('');
   const [passwordSuccess, setPasswordSuccess] = useState('');
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState('');
@@ -68,10 +71,12 @@ export const AccountSettings = () => {
 
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
-    setDeleteError('');
+    setIsDeleteModalOpen(true);
+  };
 
-    const confirmed = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
-    if (!confirmed) return;
+  const confirmDeleteAccount = async () => {
+    setIsDeleteModalOpen(false);
+    setDeleteError('');
 
     try {
       setDeleteLoading(true);
@@ -245,6 +250,15 @@ export const AccountSettings = () => {
         </form>
       </div>
 
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        title="Delete Account"
+        message="Are you sure you want to delete your account? This action cannot be undone and you will lose all your data."
+        confirmText="Yes, Delete My Account"
+        isDestructive={true}
+        onConfirm={confirmDeleteAccount}
+        onCancel={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 };

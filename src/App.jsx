@@ -19,6 +19,8 @@ import { AuthPage } from './Website/Components/Auth/Authpage';
 import { AdminLayout } from './Website/Components/Admin/AdminLayout';
 import { AdminLoginPage } from './Website/Pages/Admin/AdminLoginPage';
 import { AdminDashboard } from './Website/Pages/Admin/AdminDashboard';
+import { AdminUsers } from './Website/Pages/Admin/AdminUsers';
+import { AdminBlockedUsers } from './Website/Pages/Admin/AdminBlockedUsers';
 import { UserDetailPage } from './Website/Pages/Admin/UserDetailPage';
 import { AdminSettings } from './Website/Pages/Admin/AdminSettings';
 import { Toaster } from 'react-hot-toast';
@@ -93,6 +95,8 @@ const AppContent = () => {
           element={<AdminLayout />}
         >
           <Route path="home" element={<AdminDashboard />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="blocked" element={<AdminBlockedUsers />} />
           <Route path="user/:id" element={<UserDetailPage />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>

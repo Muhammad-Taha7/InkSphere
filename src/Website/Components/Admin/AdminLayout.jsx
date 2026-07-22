@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Settings, LogOut, Menu, X, Shield } from 'lucide-react';
+import { 
+  LayoutDashboard, Users, Settings, LogOut, 
+  Menu, X, Shield, ShieldAlert 
+} from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminLogout } from '../../Store/Slices/adminSlice.jsx';
 
 export const AdminLayout = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const { adminToken, adminUser } = useSelector(state => state.admin);
+  const { adminToken, adminUser } = useSelector((state) => state.admin);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,31 +27,33 @@ export const AdminLayout = () => {
   if (!adminToken) return null;
 
   const navItems = [
-    { name: 'Dashboard', path: '/run/Dashboard/home', icon: LayoutDashboard, end: true },
-    { name: 'Settings', path: '/run/Dashboard/settings', icon: Settings },
+    { name: 'Dashboard', icon: LayoutDashboard, path: '/run/Dashboard/home', end: true },
+    { name: 'All Users', icon: Users, path: '/run/Dashboard/users', end: false },
+    { name: 'Blocked Users', icon: ShieldAlert, path: '/run/Dashboard/blocked', end: false },
+    { name: 'Settings', icon: Settings, path: '/run/Dashboard/settings', end: false }
   ];
 
   const sidebarContent = (
-    <div className="adm-sidebar-inner">
+    <div className="flex flex-col justify-between h-full p-6">
       <div>
         {/* Logo */}
-        <div className="adm-sidebar-logo">
-          <div className="adm-sidebar-shield">
+        <div className="flex items-center gap-3 px-2 mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-yellow-500/20">
             <Shield size={20} />
           </div>
           <div>
-            <h2 className="adm-sidebar-brand">
-              INKSPHERE <span className="adm-sidebar-brand-accent">ADMIN</span>
+            <h2 className="text-sm font-black text-slate-900 tracking-wider m-0 leading-tight">
+              INKSPHERE <span className="text-yellow-600">ADMIN</span>
             </h2>
-            <p className="adm-sidebar-welcome">{adminUser?.name || 'Administrator'}</p>
+            <p className="text-[11px] text-slate-500 mt-0.5">{adminUser?.name || 'Administrator'}</p>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="adm-sidebar-divider"></div>
+        <div className="h-px bg-slate-100 my-4" />
 
         {/* Navigation */}
-        <nav className="adm-sidebar-nav">
+        <nav className="flex flex-col gap-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -58,7 +63,11 @@ export const AdminLayout = () => {
                 end={item.end}
                 onClick={() => setIsMobileOpen(false)}
                 className={({ isActive }) =>
-                  `adm-sidebar-link ${isActive ? 'adm-sidebar-link-active' : ''}`
+                  `flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                    isActive
+                      ? 'bg-yellow-50 text-yellow-800 font-semibold border border-yellow-200/60 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  }`
                 }
               >
                 <Icon size={18} />
@@ -70,9 +79,12 @@ export const AdminLayout = () => {
       </div>
 
       {/* Bottom */}
-      <div className="adm-sidebar-bottom">
-        <div className="adm-sidebar-divider"></div>
-        <button onClick={handleLogout} className="adm-sidebar-logout">
+      <div>
+        <div className="h-px bg-slate-100 my-4" />
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2.5 w-full px-3.5 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-all"
+        >
           <LogOut size={18} />
           Logout
         </button>
@@ -81,296 +93,42 @@ export const AdminLayout = () => {
   );
 
   return (
-    <div className="adm-layout">
+    <div className="flex min-h-screen bg-slate-50 font-sans">
       {/* Mobile Header */}
-      <div className="adm-mobile-header">
-        <div className="adm-mobile-header-left">
-          <div className="adm-mobile-shield">
+      <div className="flex md:hidden fixed top-0 left-0 right-0 z-30 items-center justify-between px-4 py-3 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center text-white">
             <Shield size={16} />
           </div>
-          <span className="adm-mobile-brand">
-            INKSPHERE <span className="adm-sidebar-brand-accent">ADMIN</span>
+          <span className="text-xs font-extrabold text-slate-900 tracking-wider">
+            INKSPHERE <span className="text-yellow-600">ADMIN</span>
           </span>
         </div>
-        <button 
-          onClick={() => setIsMobileOpen(!isMobileOpen)} 
-          className="adm-mobile-toggle"
-        >
+        <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="text-slate-500 p-1">
           {isMobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       {/* Desktop Sidebar */}
-      <aside className="adm-sidebar">
+      <aside className="hidden md:block w-64 shrink-0 bg-white border-r border-slate-200 fixed top-0 left-0 bottom-0 z-40">
         {sidebarContent}
       </aside>
 
       {/* Mobile Sidebar Overlay */}
       {isMobileOpen && (
-        <div className="adm-mobile-overlay" onClick={() => setIsMobileOpen(false)}>
-          <aside
-            className="adm-mobile-sidebar"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="md:hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsMobileOpen(false)}>
+          <aside className="fixed top-0 left-0 bottom-0 w-64 bg-white border-r border-slate-200 z-51 shadow-xl animate-in slide-in-from-left duration-200" onClick={(e) => e.stopPropagation()}>
             {sidebarContent}
           </aside>
         </div>
       )}
 
       {/* Main Content */}
-      <main className="adm-main">
-        <div className="adm-main-inner">
+      <main className="flex-1 p-6 pt-20 md:p-8 md:ml-64 overflow-y-auto">
+        <div className="max-w-7xl mx-auto">
           <Outlet />
         </div>
       </main>
-
-      <style>{`
-        .adm-layout {
-          display: flex;
-          min-height: 100vh;
-          background: #08080d;
-          font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-        }
-
-        /* ===== SIDEBAR ===== */
-        .adm-sidebar {
-          display: none;
-          width: 260px;
-          flex-shrink: 0;
-          background: #0c0c14;
-          border-right: 1px solid rgba(255,255,255,0.04);
-          position: fixed;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          z-index: 40;
-        }
-
-        @media (min-width: 768px) {
-          .adm-sidebar {
-            display: block;
-          }
-        }
-
-        .adm-sidebar-inner {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 100%;
-          padding: 28px 16px;
-          overflow-y: auto;
-        }
-
-        .adm-sidebar-logo {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 0 8px;
-          margin-bottom: 24px;
-        }
-
-        .adm-sidebar-shield {
-          width: 40px;
-          height: 40px;
-          background: linear-gradient(135deg, #FACC15, #EAB308);
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #06060b;
-          flex-shrink: 0;
-        }
-
-        .adm-sidebar-brand {
-          font-size: 14px;
-          font-weight: 900;
-          color: #fafafa;
-          letter-spacing: 2px;
-          margin: 0;
-          line-height: 1.2;
-        }
-
-        .adm-sidebar-brand-accent {
-          color: #FACC15;
-        }
-
-        .adm-sidebar-welcome {
-          font-size: 11px;
-          color: #5a5a6e;
-          margin: 2px 0 0;
-        }
-
-        .adm-sidebar-divider {
-          height: 1px;
-          background: rgba(255,255,255,0.04);
-          margin: 8px 0 16px;
-        }
-
-        .adm-sidebar-nav {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-
-        .adm-sidebar-link {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 11px 14px;
-          border-radius: 10px;
-          font-size: 13px;
-          font-weight: 500;
-          color: #6b6b80;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .adm-sidebar-link:hover {
-          color: #a0a0b4;
-          background: rgba(255,255,255,0.03);
-        }
-
-        .adm-sidebar-link-active {
-          color: #06060b !important;
-          background: linear-gradient(135deg, #FACC15, #EAB308) !important;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(250,204,21,0.2);
-        }
-
-        .adm-sidebar-bottom {
-          padding-top: 8px;
-        }
-
-        .adm-sidebar-logout {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          width: 100%;
-          padding: 11px 14px;
-          border-radius: 10px;
-          font-size: 13px;
-          font-weight: 500;
-          color: #ef4444;
-          background: none;
-          border: none;
-          cursor: pointer;
-          font-family: inherit;
-          transition: all 0.2s ease;
-        }
-
-        .adm-sidebar-logout:hover {
-          background: rgba(239,68,68,0.08);
-          color: #f87171;
-        }
-
-        /* ===== MOBILE HEADER ===== */
-        .adm-mobile-header {
-          display: flex;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 30;
-          align-items: center;
-          justify-content: space-between;
-          padding: 12px 16px;
-          background: rgba(12,12,20,0.9);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-
-        @media (min-width: 768px) {
-          .adm-mobile-header {
-            display: none;
-          }
-        }
-
-        .adm-mobile-header-left {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .adm-mobile-shield {
-          width: 32px;
-          height: 32px;
-          background: linear-gradient(135deg, #FACC15, #EAB308);
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #06060b;
-        }
-
-        .adm-mobile-brand {
-          font-size: 13px;
-          font-weight: 800;
-          color: #fafafa;
-          letter-spacing: 2px;
-        }
-
-        .adm-mobile-toggle {
-          background: none;
-          border: none;
-          color: #8b8b9e;
-          cursor: pointer;
-          padding: 4px;
-        }
-
-        /* ===== MOBILE OVERLAY ===== */
-        .adm-mobile-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 50;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(4px);
-        }
-
-        @media (min-width: 768px) {
-          .adm-mobile-overlay {
-            display: none;
-          }
-        }
-
-        .adm-mobile-sidebar {
-          position: fixed;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          width: 260px;
-          background: #0c0c14;
-          border-right: 1px solid rgba(255,255,255,0.04);
-          z-index: 51;
-          animation: admSlideIn 0.25s ease;
-        }
-
-        @keyframes admSlideIn {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(0); }
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .adm-main {
-          flex: 1;
-          padding: 24px;
-          padding-top: 72px;
-          overflow-y: auto;
-        }
-
-        @media (min-width: 768px) {
-          .adm-main {
-            margin-left: 260px;
-            padding: 32px;
-            padding-top: 32px;
-          }
-        }
-
-        .adm-main-inner {
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-      `}</style>
     </div>
   );
 };
