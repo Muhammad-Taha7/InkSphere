@@ -125,7 +125,7 @@ export const AdminLayout = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6 pt-20 md:p-8 md:ml-64 overflow-y-auto">
-        <div className="max-w-7xl mx-auto">
+        <div className="">
           <Outlet />
         </div>
       </main>
