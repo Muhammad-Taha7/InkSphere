@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/blogs';
+const API_URL = 'https://ink-sphere-backend-ukrx.vercel.app/api/blogs';
 
 // Axios with auth header
 const authAxios = () => {

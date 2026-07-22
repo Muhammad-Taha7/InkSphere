@@ -52,7 +52,7 @@ export const AccountSettings = () => {
       };
       
       const { data } = await axios.put(
-        `http://localhost:5000/api/users/change-password`,
+        `https://ink-sphere-backend-ukrx.vercel.app/api/users/change-password`,
         {
           currentPassword: passwordForm.currentPassword,
           newPassword: passwordForm.newPassword
@@ -89,7 +89,7 @@ export const AccountSettings = () => {
         }
       };
       
-      await axios.delete(`http://localhost:5000/api/users/account`, config);
+      await axios.delete(`https://ink-sphere-backend-ukrx.vercel.app/api/users/account`, config);
       
       // Logout and redirect on success
       dispatch(logout());

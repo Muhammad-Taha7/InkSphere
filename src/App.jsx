@@ -48,7 +48,7 @@ const AppContent = () => {
   useEffect(() => {
     const SOCKET_URL = import.meta.env.VITE_API_URL 
       ? import.meta.env.VITE_API_URL.replace('/api', '') 
-      : 'http://localhost:5000';
+      : 'https://ink-sphere-backend-ukrx.vercel.app';
 
     const newSocket = io(SOCKET_URL);
     dispatch(setSocket(newSocket));
