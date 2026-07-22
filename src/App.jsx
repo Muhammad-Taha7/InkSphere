@@ -48,9 +48,9 @@ const AppContent = () => {
   useEffect(() => {
     const apiURL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
     
-    // Disable Socket.io if connecting to Vercel (Vercel Serverless doesn't support WebSockets)
-    if (apiURL.includes('vercel.app')) {
-      console.log('Socket.io disabled: Vercel does not support WebSocket connections.');
+    // Disable Socket.io if connecting to Vercel or Netlify Serverless (they don't support WebSockets)
+    if (apiURL.includes('vercel.app') || apiURL.includes('netlify.app')) {
+      console.log('Socket.io disabled: Serverless environments do not support WebSocket connections.');
       return;
     }
 
