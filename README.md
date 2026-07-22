@@ -1,4 +1,4 @@
-# ✍️ InkSphere
+#  InkSphere
 
 <div align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
@@ -14,7 +14,7 @@
 
 > **InkSphere** is a modern, high-performance blogging platform built on the MERN stack. It features real-time interactions, a robust authentication system, an intuitive admin dashboard, and advanced security configurations.
 
-## ✨ Key Features
+##  Key Features
 
 - **Robust Authentication:** Secure email/password login, OTP verification, and password recovery.
 - **Real-Time Capabilities:** Live notifications and active user updates powered by **Socket.IO**.
@@ -26,7 +26,7 @@
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+##  Architecture & Tech Stack
 
 ### Frontend (`/client`)
 - **Framework:** React.js (Bootstrapped with Vite)
@@ -44,7 +44,7 @@
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 Follow these steps to set up the project locally.
 
@@ -92,7 +92,7 @@ npm run dev
 
 ---
 
-## 📦 Deployment (Vercel)
+##  Deployment (Vercel)
 
 The project is fully configured for deployment on **Vercel**.
 
@@ -108,7 +108,7 @@ The project is fully configured for deployment on **Vercel**.
 
 ---
 
-## 📁 Folder Structure
+##  Folder Structure
 
 ```text
 inkSphere/
@@ -133,5 +133,5 @@ inkSphere/
 ---
 
 <div align="center">
-  <i>Developed with ❤️ for creating dynamic web experiences.</i>
+  <i>Developed by Mr.Taha.</i>
 </div>
