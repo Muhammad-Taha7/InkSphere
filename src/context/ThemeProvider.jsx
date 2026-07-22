@@ -9,8 +9,8 @@ export const ThemeProvider = ({ children }) => {
     // Check local storage or default to 'light'
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme) return storedTheme;
-    // Default to 'light' to keep current site look unless they prefer dark
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Default strictly to 'light' to prevent black screen issues
+    return 'light';
   });
 
   useEffect(() => {
