@@ -25,7 +25,7 @@ export const AdminQueries = () => {
   const fetchQueries = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('https://ink-sphere-backend-ukrx.vercel.app/api/queries/admin', {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/queries/admin`, {
         headers: { Authorization: `Bearer ${adminToken}` }
       });
       setQueries(response.data);
@@ -43,7 +43,7 @@ export const AdminQueries = () => {
       setResolvingId(queryId);
       setIsSubmitting(true);
       await axios.put(
-        `https://ink-sphere-backend-ukrx.vercel.app/api/queries/admin/${queryId}/resolve`,
+        `${import.meta.env.VITE_API_URL}/api/queries/admin/${queryId}/resolve`,
         { reply: replyText },
         { headers: { Authorization: `Bearer ${adminToken}` } }
       );

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'https://ink-sphere-backend-ukrx.vercel.app/api/auth';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
 // Axios instance with auth header
 const authAxios = () => {
@@ -75,7 +75,7 @@ export const getMe = createAsyncThunk('auth/getMe', async (_, thunkAPI) => {
 // Complete profile
 export const completeProfile = createAsyncThunk('auth/completeProfile', async (formData, thunkAPI) => {
   try {
-    const response = await authAxios().put('https://ink-sphere-backend-ukrx.vercel.app/api/users/complete-profile', formData, {
+    const response = await authAxios().put(`${import.meta.env.VITE_API_URL}/api/users/complete-profile`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -90,7 +90,7 @@ export const completeProfile = createAsyncThunk('auth/completeProfile', async (f
 // Update profile
 export const updateProfile = createAsyncThunk('auth/updateProfile', async (formData, thunkAPI) => {
   try {
-    const response = await authAxios().put('https://ink-sphere-backend-ukrx.vercel.app/api/users/profile', formData, {
+    const response = await authAxios().put(`${import.meta.env.VITE_API_URL}/api/users/profile`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${localStorage.getItem('token')}`

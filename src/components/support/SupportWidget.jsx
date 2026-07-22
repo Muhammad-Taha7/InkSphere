@@ -36,7 +36,7 @@ export const SupportWidget = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        'https://ink-sphere-backend-ukrx.vercel.app/api/queries',
+        `${import.meta.env.VITE_API_URL}/api/queries`,
         { category, description },
         { headers: { Authorization: `Bearer ${token}` } }
       );
