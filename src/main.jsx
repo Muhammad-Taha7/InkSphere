@@ -5,9 +5,9 @@ import { App } from './App.jsx';
 
 // 1. Redux Provider aur Store import karein
 import { Provider } from 'react-redux';
-import store from './Website/Store/Store.jsx';
-import { SocketProvider } from './Website/Context/SocketProvider.jsx';
-import { ThemeProvider } from './Website/Context/ThemeProvider.jsx';
+import store from './store/Store.jsx';
+import { SocketProvider } from './context/SocketProvider.jsx';
+import { ThemeProvider } from './context/ThemeProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

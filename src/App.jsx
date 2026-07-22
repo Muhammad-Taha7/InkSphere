@@ -1,29 +1,32 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMe } from './Website/Store/Slices/authSlice.jsx';
+import { getMe } from './store/slices/authSlice.jsx';
 
 // Component Imports
-import { Navbar } from './Website/Components/Navbar'; 
-import { Footer } from './Website/Components/Footer'; 
+import { Navbar } from './components/Navbar'; 
+import { Footer } from './components/Footer'; 
 
 // Page Imports
-import { Home } from './Website/Pages/Home';
-import { Blogs } from './Website/Pages/Blogs';
-import { BlogDetail } from './Website/Pages/BlogDetail';
-import { Profile } from './Website/Pages/Profile';
-import { ProfileSetup } from './Website/Pages/ProfileSetup';
-import { NotFound } from './Website/Error/notFound';
-import { ProtectedRoute } from './Website/protectedRoute';
-import { AuthPage } from './Website/Components/Auth/Authpage';
-import { AdminLayout } from './Website/Components/Admin/AdminLayout';
-import { AdminLoginPage } from './Website/Pages/Admin/AdminLoginPage';
-import { AdminDashboard } from './Website/Pages/Admin/AdminDashboard';
-import { AdminUsers } from './Website/Pages/Admin/AdminUsers';
-import { AdminBlockedUsers } from './Website/Pages/Admin/AdminBlockedUsers';
-import { UserDetailPage } from './Website/Pages/Admin/UserDetailPage';
-import { AdminSettings } from './Website/Pages/Admin/AdminSettings';
+import { Home } from './pages/Home';
+import { Blogs } from './pages/Blogs';
+import { BlogDetail } from './pages/BlogDetail';
+import { Profile } from './pages/Profile';
+import { ProfileSetup } from './pages/ProfileSetup';
+import { NotFound } from './pages/error/notFound';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthPage } from './components/auth/Authpage';
+import { AdminLayout } from './components/admin/AdminLayout';
+import { AdminLoginPage } from './pages/admin/AdminLoginPage';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { AdminUsers } from './pages/admin/AdminUsers';
+import { AdminBlockedUsers } from './pages/admin/AdminBlockedUsers';
+import { UserDetailPage } from './pages/admin/UserDetailPage';
+import { AdminSettings } from './pages/admin/AdminSettings';
+import { AdminQueries } from './components/admin/AdminQueries';
 import { Toaster } from 'react-hot-toast';
+
+import { SupportWidget } from './components/support/SupportWidget';
 
 const AppContent = () => {
   const location = useLocation();
@@ -97,6 +100,7 @@ const AppContent = () => {
           <Route path="home" element={<AdminDashboard />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="blocked" element={<AdminBlockedUsers />} />
+          <Route path="queries" element={<AdminQueries />} />
           <Route path="user/:id" element={<UserDetailPage />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
@@ -106,6 +110,7 @@ const AppContent = () => {
       </Routes>
 
       {isKnownRoute && <Footer />}
+      {!location.pathname.startsWith('/run/Dashboard') && <SupportWidget />}
     </>
   );
 };
