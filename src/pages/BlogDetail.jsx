@@ -4,7 +4,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { fetchBlog, toggleLike, addComment, clearCurrentBlog, receiveComment, receiveLikeUpdate } from '../store/slices/blogSlice.jsx';
 import { Heart, MessageSquare, Share2, ArrowLeft, Send, Calendar, ChevronDown, ChevronUp } from 'lucide-react';
 import ConfirmModal from '../components/ConfirmModal.jsx';
-import { useSocket } from '../context/SocketProvider.jsx';
 import toast from 'react-hot-toast';
 
 export const BlogDetail = () => {
@@ -13,12 +12,12 @@ export const BlogDetail = () => {
   const navigate = useNavigate();
   const { currentBlog, isLoading } = useSelector(state => state.blogs);
   const { user, token } = useSelector(state => state.auth);
+  const { socket } = useSelector(state => state.socket);
   
   const [commentText, setCommentText] = useState('');
   const [isLiking, setIsLiking] = useState(false);
   const [visibleLines, setVisibleLines] = useState(10);
   const [authModal, setAuthModal] = useState({ isOpen: false, action: '' });
-  const socket = useSocket();
 
   useEffect(() => {
     dispatch(fetchBlog(id));

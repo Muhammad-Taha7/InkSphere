@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMe } from './store/slices/authSlice.jsx';
+import { setSocket } from './store/slices/socketSlice.jsx';
+import { io } from 'socket.io-client';
 
 // Component Imports
 import { Navbar } from './components/Navbar'; 
 import { Footer } from './components/Footer'; 
+import Loader from './components/common/Loader.jsx';
 
 // Page Imports
 import { Home } from './pages/Home';
@@ -32,12 +35,45 @@ const AppContent = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { token, user, isLoading } = useSelector(state => state.auth);
+  const { theme } = useSelector(state => state.theme);
+  const { socket } = useSelector(state => state.socket);
 
   useEffect(() => {
     if (token && !user) {
       dispatch(getMe());
     }
   }, [token, user, dispatch]);
+
+  // Handle Socket Initialization
+  useEffect(() => {
+    const SOCKET_URL = import.meta.env.VITE_API_URL 
+      ? import.meta.env.VITE_API_URL.replace('/api', '') 
+      : 'http://localhost:5000';
+
+    const newSocket = io(SOCKET_URL);
+    dispatch(setSocket(newSocket));
+
+    return () => {
+      newSocket.close();
+    };
+  }, [dispatch]);
+
+  // Handle Socket User Join
+  useEffect(() => {
+    if (socket && user) {
+      socket.emit('join-user', user.id || user._id);
+    }
+  }, [socket, user]);
+
+  // Handle Theme
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [theme]);
   
   // Valid routes ki list where Navbar/Footer should be shown
   const isKnownRoute = !location.pathname.startsWith('/profile') && 
@@ -46,11 +82,7 @@ const AppContent = () => {
                        !location.pathname.startsWith('/run/Dashboard');
 
   if (isLoading && token && !user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-yellow-400"></div>
-      </div>
-    );
+    return <Loader fullScreen={true} text="Authenticating..." />;
   }
 
   return (

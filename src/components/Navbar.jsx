@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { gsap } from 'gsap';
 import { LogOut, User, Bell, PenSquare, Menu, X } from 'lucide-react';
 import { logout } from '../store/slices/authSlice.jsx';
-import { useSocket } from '../context/SocketProvider.jsx';
+
 import { fetchNotifications, receiveNotification, markAsRead, markAllAsRead } from '../store/slices/notificationSlice.jsx';
 import './Navbar.css';
 
@@ -15,8 +15,8 @@ export const Navbar = () => {
   const closeTl = useRef(null);
   const notifRef = useRef(null);
   const { user, token } = useSelector(state => state.auth);
+  const { socket } = useSelector(state => state.socket);
   const { notifications, unreadCount } = useSelector(state => state.notifications);
-  const socket = useSocket();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
