@@ -46,10 +46,15 @@ const AppContent = () => {
 
   // Handle Socket Initialization
   useEffect(() => {
-    const SOCKET_URL = (import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app') 
-      ? (import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app').replace('/api', '') 
-      : `${(import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app')}`;
+    const apiURL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    
+    // Disable Socket.io if connecting to Vercel (Vercel Serverless doesn't support WebSockets)
+    if (apiURL.includes('vercel.app')) {
+      console.log('Socket.io disabled: Vercel does not support WebSocket connections.');
+      return;
+    }
 
+    const SOCKET_URL = apiURL.replace('/api', '');
     const newSocket = io(SOCKET_URL);
     dispatch(setSocket(newSocket));
 
