@@ -114,16 +114,15 @@
         .to('.otherDots circle', { duration: 1, x: -40, ease: "expo.out", stagger: { each: 0.09, from: "start" } }, 0.68)
         .to('.mainDot', { duration: 1.8, x: 200, ease: "elastic.out(1, 0.7)" }, 1);
 
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const loader = document.getElementById('global-loader');
-          if (loader) {
-            loader.style.opacity = '0';
-            loader.style.visibility = 'hidden';
-            setTimeout(() => loader.remove(), 500);
-          }
-        }, 1000);
-      });
+      // Define globally so React can call it when ready
+      window.hideGlobalLoader = () => {
+        const loader = document.getElementById('global-loader');
+        if (loader) {
+          loader.style.opacity = '0';
+          loader.style.visibility = 'hidden';
+          setTimeout(() => loader.remove(), 500);
+        }
+      };
     </script>
 
     <div id="root"></div>

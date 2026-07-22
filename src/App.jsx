@@ -80,6 +80,28 @@ const AppContent = () => {
     }
   }, [theme]);
   
+  // Handle Global Loader
+  useEffect(() => {
+    // Wait until auth check is resolved
+    if (token && !user) return;
+
+    const hideLoader = () => {
+      if (window.hideGlobalLoader) {
+        // Give React a small moment to paint the data after auth check
+        setTimeout(() => {
+          window.hideGlobalLoader();
+        }, 500);
+      }
+    };
+
+    if (document.readyState === 'complete') {
+      hideLoader();
+    } else {
+      window.addEventListener('load', hideLoader);
+      return () => window.removeEventListener('load', hideLoader);
+    }
+  }, [token, user]);
+  
   // Valid routes ki list where Navbar/Footer should be shown
   const isKnownRoute = !location.pathname.startsWith('/profile') && 
                        !location.pathname.startsWith('/auth') && 
