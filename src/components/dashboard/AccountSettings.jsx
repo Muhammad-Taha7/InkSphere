@@ -115,22 +115,14 @@ export const AccountSettings = () => {
           </div>
         </div>
 
-        {user?.authProvider === 'google' ? (
-          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 flex items-start gap-3">
-            <ShieldCheck className="h-5 w-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-            <p className="text-sm text-blue-800 dark:text-blue-300">
-              You signed in using Google. Your password is managed by your Google account, so you cannot change it here.
-            </p>
-          </div>
-        ) : (
-          <form onSubmit={handlePasswordSubmit} className="space-y-5">
-            {passwordError && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-sm text-red-600 dark:text-red-400">
-                {passwordError}
-              </div>
-            )}
-            
-            {passwordSuccess && (
+        <form onSubmit={handlePasswordSubmit} className="space-y-5">
+          {passwordError && (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-sm text-red-600 dark:text-red-400">
+              {passwordError}
+            </div>
+          )}
+
+          {passwordSuccess && (
               <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 text-sm text-green-600 dark:text-green-400">
                 {passwordSuccess}
               </div>
@@ -188,7 +180,6 @@ export const AccountSettings = () => {
               </button>
             </div>
           </form>
-        )}
       </div>
 
       {/* Delete Account Section */}
@@ -214,7 +205,6 @@ export const AccountSettings = () => {
             </div>
           )}
 
-          {user?.authProvider !== 'google' && (
             <div>
               <label className="block text-sm font-semibold text-red-700 dark:text-red-300 mb-1.5">
                 Confirm your password
@@ -229,7 +219,6 @@ export const AccountSettings = () => {
                 className="w-full max-w-md rounded-lg border border-red-300 dark:border-red-800/50 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm text-gray-900 dark:text-zinc-100 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 transition-all placeholder:text-gray-400 dark:placeholder:text-zinc-600"
               />
             </div>
-          )}
 
           <div className="pt-2">
             <button
