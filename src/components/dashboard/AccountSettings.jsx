@@ -52,7 +52,7 @@ export const AccountSettings = () => {
       };
       
       const { data } = await axios.put(
-        `${(import.meta.env.VITE_API_URL || 'http://localhost:5000')}/api/users/change-password`,
+        `${(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000')}/api/users/change-password`,
         {
           currentPassword: passwordForm.currentPassword,
           newPassword: passwordForm.newPassword
@@ -89,7 +89,7 @@ export const AccountSettings = () => {
         }
       };
       
-      await axios.delete(`${(import.meta.env.VITE_API_URL || 'http://localhost:5000')}/api/users/account`, config);
+      await axios.delete(`${(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000')}/api/users/account`, config);
       
       // Logout and redirect on success
       dispatch(logout());

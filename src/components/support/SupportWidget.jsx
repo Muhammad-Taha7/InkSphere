@@ -36,7 +36,7 @@ export const SupportWidget = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        `${(import.meta.env.VITE_API_URL || 'http://localhost:5000')}/api/queries`,
+        `${(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000')}/api/queries`,
         { category, description },
         { headers: { Authorization: `Bearer ${token}` } }
       );

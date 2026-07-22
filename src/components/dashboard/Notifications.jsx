@@ -19,7 +19,7 @@ export const Notifications = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      const { data } = await axios.get(`${(import.meta.env.VITE_API_URL || 'http://localhost:5000')}/api/notifications`, config);
+      const { data } = await axios.get(`${(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000')}/api/notifications`, config);
       if (Array.isArray(data)) {
         setNotifications(data);
       } else {
@@ -46,7 +46,7 @@ export const Notifications = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      await axios.put(`${(import.meta.env.VITE_API_URL || 'http://localhost:5000')}/api/notifications/${id}/read`, {}, config);
+      await axios.put(`${(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000')}/api/notifications/${id}/read`, {}, config);
       setNotifications(notifications.map(n => n._id === id ? { ...n, isRead: true } : n));
     } catch (err) {
       console.error('Error marking notification as read:', err);
@@ -60,7 +60,7 @@ export const Notifications = () => {
           Authorization: `Bearer ${token}`
         }
       };
-      await axios.put(`${(import.meta.env.VITE_API_URL || 'http://localhost:5000')}/api/notifications/read-all`, {}, config);
+      await axios.put(`${(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000')}/api/notifications/read-all`, {}, config);
       setNotifications(notifications.map(n => ({ ...n, isRead: true })));
     } catch (err) {
       console.error('Error marking all as read:', err);
