@@ -46,9 +46,9 @@ const AppContent = () => {
 
   // Handle Socket Initialization
   useEffect(() => {
-    const SOCKET_URL = import.meta.env.VITE_API_URL 
-      ? import.meta.env.VITE_API_URL.replace('/api', '') 
-      : `${import.meta.env.VITE_API_URL}`;
+    const SOCKET_URL = (import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app') 
+      ? (import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app').replace('/api', '') 
+      : `${(import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app')}`;
 
     const newSocket = io(SOCKET_URL);
     dispatch(setSocket(newSocket));

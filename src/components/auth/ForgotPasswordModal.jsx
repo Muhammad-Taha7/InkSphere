@@ -17,7 +17,7 @@ export const ForgotPasswordModal = ({ isOpen, onClose }) => {
     setError('');
     setIsLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
+      const response = await fetch(`${(import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app')}/api/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -41,7 +41,7 @@ export const ForgotPasswordModal = ({ isOpen, onClose }) => {
     setError('');
     setIsLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password`, {
+      const response = await fetch(`${(import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app')}/api/auth/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp, newPassword })

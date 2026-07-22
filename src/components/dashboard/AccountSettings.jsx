@@ -52,7 +52,7 @@ export const AccountSettings = () => {
       };
       
       const { data } = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/users/change-password`,
+        `${(import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app')}/api/users/change-password`,
         {
           currentPassword: passwordForm.currentPassword,
           newPassword: passwordForm.newPassword
@@ -89,7 +89,7 @@ export const AccountSettings = () => {
         }
       };
       
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/users/account`, config);
+      await axios.delete(`${(import.meta.env.VITE_API_URL || 'https://ink-sphere-backend-ukrx.vercel.app')}/api/users/account`, config);
       
       // Logout and redirect on success
       dispatch(logout());
