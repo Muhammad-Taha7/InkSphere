@@ -63,13 +63,7 @@ cd inksphere
 cd server
 npm install
 ```
-Create a `.env` file in the `server` directory and add the following template (do not use real values here):
-```env
-PORT=<YOUR_PORT>
-MONGO_URL=<YOUR_MONGODB_CONNECTION_STRING>
-JWT_SECRET=<YOUR_JWT_SECRET>
-CLIENT_URL=<YOUR_FRONTEND_URL>
-```
+Configure the backend environment variables locally. Do not share real values in the repository.
 Start the backend server:
 ```bash
 npm run dev
@@ -81,10 +75,7 @@ Open a new terminal window:
 cd client
 npm install
 ```
-Create a `.env` file in the `client` directory and add the required variables:
-```env
-VITE_API_URL=<YOUR_BACKEND_API_URL>
-```
+Configure the frontend environment variables locally and keep them out of version control.
 Start the frontend development server:
 ```bash
 npm run dev
@@ -98,12 +89,12 @@ The project is fully configured for deployment on **Vercel**.
 
 1. **Backend Deployment:**
    - Create a new Vercel project and select the `server` directory.
-   - Configure the environment variables in the Vercel dashboard.
+  - Configure the required environment variables in the Vercel dashboard.
    - Deploy.
 
 2. **Frontend Deployment:**
    - Create a new Vercel project and select the `client` directory.
-   - Add the `VITE_API_URL` environment variable pointing to your deployed backend URL.
+  - Configure the frontend environment variable in the Vercel dashboard.
    - Deploy.
 
 ---
@@ -115,7 +106,6 @@ inkSphere/
 ├── client/                 # Frontend React Application
 │   ├── src/                # React Source Code
 │   ├── public/             # Static Assets
-│   ├── .env.production     # Production Environment Variables
 │   ├── vite.config.js      # Vite Configuration
 │   └── package.json        
 └── server/                 # Backend Node/Express Application
